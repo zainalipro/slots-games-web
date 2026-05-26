@@ -1,0 +1,14 @@
+{
+  "name": "slots-games-web",
+  "version": "1.0.0",
+  "description": "Slotopol Casino - Premium Casino Games",
+  "scripts": {
+    "start": "node slotopol-web/server.js",
+    "build": "cd slotopol-web && npm install",
+    "postinstall": "cd slotopol-web && npm install"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "http-proxy-middleware": "^2.0.6"
+  }
+}

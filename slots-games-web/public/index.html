@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Slotopol Casino</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- ====== LOGIN SCREEN ====== -->
+  <div id="login-screen" class="screen active">
+    <div class="login-container">
+      <div class="login-logo">
+        <div class="logo-icon">🎰</div>
+        <h1>SLOTOPOL</h1>
+        <p class="logo-subtitle">Premium Casino Experience</p>
+      </div>
+      <div class="login-form">
+        <div id="login-bonus-banner" class="bonus-banner" style="display:none">
+          <span>🎁</span> Get Free Bonus on Registration!
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" id="login-email" value="player@example.org" placeholder="Enter your email">
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" id="login-password" value="iVI05M" placeholder="Enter your password">
+        </div>
+        <div class="form-row">
+          <button class="btn btn-outline btn-half" onclick="showSignup()">Sign Up</button>
+          <button id="login-btn" class="btn btn-primary btn-half" onclick="login()">
+            <span class="btn-text">Sign In</span>
+            <span class="btn-loader" style="display:none">⟳</span>
+          </button>
+        </div>
+        <div id="login-error" class="error-msg"></div>
+        <div class="form-hint">Demo: player@example.org / iVI05M</div>
+        <div class="payment-logos-row">
+          <span class="payment-badge"><img src="/uploads/easypaisa.png" alt="Easypaisa" onerror="this.outerHTML='💳 Easypaisa'" class="payment-icon-sm"> Easypaisa</span>
+          <span class="payment-badge"><img src="/uploads/jazzcash.png" alt="JazzCash" onerror="this.outerHTML='💳 JazzCash'" class="payment-icon-sm"> JazzCash</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== SIGNUP SCREEN ====== -->
+  <div id="signup-screen" class="screen">
+    <div class="login-container">
+      <div class="login-logo">
+        <div class="logo-icon">🎰</div>
+        <h1>CREATE ACCOUNT</h1>
+        <p class="logo-subtitle">Join Slotopol Casino</p>
+      </div>
+      <div class="login-form">
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" id="signup-email" placeholder="Enter your email">
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" id="signup-password" placeholder="Create a password">
+        </div>
+        <div class="form-group">
+          <label>Referral Code (optional)</label>
+          <input type="text" id="signup-referral" placeholder="Enter referral code for bonus">
+        </div>
+        <div id="signup-bonus-offer" class="bonus-offer">
+          <span>🎁</span> Get <strong id="signup-bonus-amount">50</strong> registration bonus!
+        </div>
+        <div class="form-row">
+          <button class="btn btn-outline btn-half" onclick="showScreen('login')">Back</button>
+          <button id="signup-btn" class="btn btn-primary btn-half" onclick="signup()">
+            <span class="btn-text">Create Account</span>
+            <span class="btn-loader" style="display:none">⟳</span>
+          </button>
+        </div>
+        <div id="signup-error" class="error-msg"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== MAIN APP SCREEN ====== -->
+  <div id="app-screen" class="screen">
+    <!-- Top Navigation Bar -->
+    <header class="topbar">
+      <div class="topbar-left">
+        <div class="topbar-logo">🎰 Slotopol</div>
+        <div class="topbar-user-badge" id="user-badge"></div>
+      </div>
+      <div class="topbar-center">
+        <nav class="topbar-nav" id="main-nav">
+          <button class="nav-btn active" onclick="showView('home')" id="nav-home">🏠 Home</button>
+          <button class="nav-btn" onclick="showView('games')" id="nav-games">🎮 Games</button>
+          <button class="nav-btn" onclick="showView('casino')" id="nav-casino">🃏 Casino</button>
+          <button class="nav-btn" onclick="showView('deposit')" id="nav-deposit">💰 Deposit</button>
+          <button class="nav-btn admin-only" onclick="showView('admin')" id="nav-admin" style="display:none">⚙️ Admin</button>
+        </nav>
+      </div>
+      <div class="topbar-right">
+        <div class="wallet-display" id="wallet-display">
+          <span class="wallet-label">Balance</span>
+          <span class="wallet-value" id="wallet-value">0.00</span>
+        </div>
+        <div class="user-menu">
+          <button class="btn btn-icon-sm" onclick="showView('profile')" title="Profile">👤</button>
+          <button class="btn btn-icon-sm" onclick="logout()" title="Logout">🚪</button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Mobile Bottom Nav -->
+    <nav class="bottom-nav">
+      <button class="bnav-btn active" onclick="showView('home')" id="bnav-home">🏠<span>Home</span></button>
+      <button class="bnav-btn" onclick="showView('games')" id="bnav-games">🎮<span>Games</span></button>
+      <button class="bnav-btn" onclick="showView('casino')" id="bnav-casino">🃏<span>Casino</span></button>
+      <button class="bnav-btn" onclick="showView('deposit')" id="bnav-deposit">💰<span>Deposit</span></button>
+      <button class="bnav-btn admin-only" onclick="showView('admin')" id="bnav-admin" style="display:none">⚙️<span>Admin</span></button>
+    </nav>
+
+    <main class="main-content">
+
+      <!-- ====== HOME VIEW ====== -->
+      <div id="view-home" class="view active">
+        <div class="home-hero">
+          <div class="hero-content">
+            <h1>Welcome to Slotopol</h1>
+            <p>Premium Casino Games &amp; Exciting Rewards</p>
+            <div class="hero-badges">
+              <span class="hero-badge">🎰 100+ Slots</span>
+              <span class="hero-badge">🃏 Table Games</span>
+              <span class="hero-badge">🎣 Fishing Games</span>
+              <span class="hero-badge">💰 Crypto Ready</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="quick-actions">
+          <button class="qa-card" onclick="showView('deposit')">
+            <span class="qa-icon">💳</span>
+            <span class="qa-label">Deposit</span>
+          </button>
+          <button class="qa-card" onclick="showView('games')">
+            <span class="qa-icon">🎮</span>
+            <span class="qa-label">All Games</span>
+          </button>
+          <button class="qa-card" onclick="showView('casino')">
+            <span class="qa-icon">🃏</span>
+            <span class="qa-label">Casino</span>
+          </button>
+          <button class="qa-card" onclick="claimBonus()">
+            <span class="qa-icon">🎁</span>
+            <span class="qa-label">Bonus</span>
+          </button>
+        </div>
+
+        <div class="section-header">
+          <h2>🔥 Popular Games</h2>
+        </div>
+        <div class="games-carousel" id="home-carousel">
+          <div class="loading">Loading games...</div>
+        </div>
+
+        <div class="section-header">
+          <h2>📊 Recent Activity</h2>
+        </div>
+        <div class="recent-activity" id="recent-activity">
+          <div class="activity-empty">No recent activity. Start playing!</div>
+        </div>
+      </div>
+
+      <!-- ====== GAMES BROWSER VIEW ====== -->
+      <div id="view-games" class="view">
+        <div class="view-header">
+          <h2>🎮 Game Browser</h2>
+          <div class="browser-controls">
+            <div class="search-box">
+              <input type="text" id="game-search" placeholder="Search games..." oninput="filterGames()">
+            </div>
+          </div>
+        </div>
+        <div class="filter-section">
+          <div class="filter-tabs" id="category-tabs"></div>
+        </div>
+        <div class="filter-section">
+          <div class="filter-tabs filter-providers" id="provider-tabs"></div>
+        </div>
+        <div class="games-grid" id="games-grid">
+          <div class="loading">Loading games...</div>
+        </div>
+      </div>
+
+      <!-- ====== CASINO VIEW (Table Games Hub) ====== -->
+      <div id="view-casino" class="view">
+        <div class="view-header">
+          <h2>🃏 Casino Games</h2>
+          <p class="view-subtitle">Classic table games with real card mechanics</p>
+        </div>
+        <div class="casino-grid">
+          <div class="casino-card" onclick="launchCasinoGame('blackjack')" style="--card-color: #27ae60">
+            <span class="casino-icon">🃏</span>
+            <span class="casino-name">Blackjack</span>
+            <span class="casino-desc">Beat the dealer's hand without going over 21</span>
+            <span class="casino-tag">Hit • Stand • Double</span>
+          </div>
+          <div class="casino-card" onclick="launchCasinoGame('baccarat')" style="--card-color: #8e44ad">
+            <span class="casino-icon">🎴</span>
+            <span class="casino-name">Baccarat</span>
+            <span class="casino-desc">Bet on Player, Banker, or Tie</span>
+            <span class="casino-tag">Player • Banker • Tie</span>
+          </div>
+          <div class="casino-card" onclick="launchCasinoGame('poker')" style="--card-color: #e67e22">
+            <span class="casino-icon">♠️</span>
+            <span class="casino-name">Video Poker</span>
+            <span class="casino-desc">Jacks or Better - 5 card draw</span>
+            <span class="casino-tag">Hold • Draw • Win</span>
+          </div>
+          <div class="casino-card" onclick="launchCasinoGame('dragontiger')" style="--card-color: #e74c3c">
+            <span class="casino-icon">🐉</span>
+            <span class="casino-name">Dragon Tiger</span>
+            <span class="casino-desc">Simple card comparison game</span>
+            <span class="casino-tag">Dragon • Tiger • Tie</span>
+          </div>
+          <div class="casino-card" onclick="launchCasinoGame('roulette')" style="--card-color: #2c3e50">
+            <span class="casino-icon">🎡</span>
+            <span class="casino-name">Roulette</span>
+            <span class="casino-desc">European roulette with all bet types</span>
+            <span class="casino-tag">Red/Black • Numbers • Dozens</span>
+          </div>
+          <div class="casino-card" onclick="launchCasinoGame('aviator')" style="--card-color: #f39c12">
+            <span class="casino-icon">✈️</span>
+            <span class="casino-name">Aviator</span>
+            <span class="casino-desc">Crash game - cash out before the plane crashes</span>
+            <span class="casino-tag">Launch • Cash Out</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ====== GAME PLAY VIEW (Dynamic Game Area) ====== -->
+      <div id="view-gameplay" class="view">
+        <div class="gameplay-header">
+          <button class="btn btn-sm btn-outline" onclick="showView('casino')">← Back</button>
+          <h2 id="gameplay-title">Game</h2>
+          <div class="gameplay-wallet">
+            <span>Balance: </span><strong id="gameplay-balance">0.00</strong>
+          </div>
+        </div>
+        <div id="gameplay-area" class="gameplay-area">
+          <!-- Dynamic game content rendered by JS -->
+        </div>
+      </div>
+
+      <!-- ====== DEPOSIT VIEW ====== -->
+      <div id="view-deposit" class="view">
+        <div class="view-header">
+          <h2>💰 Deposit &amp; Withdraw</h2>
+          <p class="view-subtitle">Secure payments via local methods</p>
+        </div>
+        <div class="payment-tabs">
+          <button class="pay-tab active" onclick="switchPayTab('deposit')" id="paytab-deposit">💳 Deposit</button>
+          <button class="pay-tab" onclick="switchPayTab('withdraw')" id="paytab-withdraw">💸 Withdraw</button>
+          <button class="pay-tab" onclick="switchPayTab('history')" id="paytab-history">📋 History</button>
+        </div>
+
+        <!-- Deposit Tab -->
+        <div id="payview-deposit" class="payview active">
+          <div class="payment-methods" id="payment-methods">
+            <div class="pay-method selected" data-method="Easypaisa" onclick="selectPayment(this)">
+              <img src="/uploads/easypaisa.png" alt="Easypaisa" onerror="this.outerHTML='💳'" class="pay-icon">
+              <span>Easypaisa</span>
+              <span class="pay-check">✓</span>
+            </div>
+            <div class="pay-method" data-method="JazzCash" onclick="selectPayment(this)">
+              <img src="/uploads/jazzcash.png" alt="JazzCash" onerror="this.outerHTML='💳'" class="pay-icon">
+              <span>JazzCash</span>
+            </div>
+          </div>
+
+          <div class="pay-amount-section">
+            <div class="form-group">
+              <label>Amount (PKR)</label>
+              <div class="amount-input-group">
+                <input type="number" id="deposit-amount" value="500" min="100" step="100" class="amount-input">
+                <span class="amount-suffix">PKR</span>
+              </div>
+            </div>
+            <div class="quick-amounts">
+              <button class="qa-btn" onclick="setDepositAmount(500)">500</button>
+              <button class="qa-btn" onclick="setDepositAmount(1000)">1,000</button>
+              <button class="qa-btn" onclick="setDepositAmount(2500)">2,500</button>
+              <button class="qa-btn" onclick="setDepositAmount(5000)">5,000</button>
+              <button class="qa-btn" onclick="setDepositAmount(10000)">10,000</button>
+            </div>
+            <div class="deposit-limits">
+              Min: <strong id="min-deposit">100</strong> PKR &nbsp;|&nbsp; Max: <strong id="max-deposit">100,000</strong> PKR
+            </div>
+          </div>
+
+          <button class="btn btn-primary btn-full" onclick="processDeposit()">
+            <span>💳 Deposit Now</span>
+          </button>
+          <div id="deposit-result" class="pay-result"></div>
+        </div>
+
+        <!-- Withdraw Tab -->
+        <div id="payview-withdraw" class="payview">
+          <div class="payment-methods" id="withdraw-methods">
+            <div class="pay-method selected" data-method="Easypaisa" onclick="selectWithdrawMethod(this)">
+              <img src="/uploads/easypaisa.png" alt="Easypaisa" onerror="this.outerHTML='💳'" class="pay-icon">
+              <span>Easypaisa</span>
+              <span class="pay-check">✓</span>
+            </div>
+            <div class="pay-method" data-method="JazzCash" onclick="selectWithdrawMethod(this)">
+              <img src="/uploads/jazzcash.png" alt="JazzCash" onerror="this.outerHTML='💳'" class="pay-icon">
+              <span>JazzCash</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Account Number</label>
+            <input type="text" id="withdraw-account" placeholder="03XX-XXXXXXX">
+          </div>
+          <div class="form-group">
+            <label>Amount (PKR)</label>
+            <div class="amount-input-group">
+              <input type="number" id="withdraw-amount" value="500" min="500" step="100" class="amount-input">
+              <span class="amount-suffix">PKR</span>
+            </div>
+          </div>
+          <div class="deposit-limits">
+            Min: <strong id="min-withdraw">500</strong> PKR &nbsp;|&nbsp; Max: <strong id="max-withdraw">50,000</strong> PKR
+          </div>
+          <button class="btn btn-primary btn-full" onclick="processWithdraw()">
+            <span>💸 Withdraw Now</span>
+          </button>
+          <div id="withdraw-result" class="pay-result"></div>
+        </div>
+
+        <!-- History Tab -->
+        <div id="payview-history" class="payview">
+          <div class="transaction-list" id="transaction-list">
+            <div class="tx-empty">No transactions yet.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ====== PROFILE VIEW ====== -->
+      <div id="view-profile" class="view">
+        <div class="view-header">
+          <h2>👤 My Profile</h2>
+        </div>
+        <div class="profile-card">
+          <div class="profile-avatar">👤</div>
+          <div class="profile-info">
+            <span class="profile-name" id="profile-name">player@example.org</span>
+            <span class="profile-id" id="profile-id">UID: 0</span>
+            <span class="profile-commission">Commission: <strong id="profile-commission">5.0%</strong></span>
+          </div>
+        </div>
+        <div class="profile-section">
+          <h3>Account Settings</h3>
+          <div class="form-group">
+            <label>Display Name</label>
+            <input type="text" id="profile-display-name" placeholder="Your display name">
+          </div>
+          <button class="btn btn-primary" onclick="updateProfile()">Save</button>
+        </div>
+        <div class="profile-section">
+          <h3>My Commission</h3>
+          <div class="commission-card">
+            <div class="commission-rate">
+              <span class="comm-label">Your Commission Rate</span>
+              <span class="comm-value" id="profile-comm-value">5.0%</span>
+            </div>
+            <div class="commission-desc">Earn commission on referred players' gameplay</div>
+            <div class="referral-link" id="referral-link">
+              <span>Referral Code: </span>
+              <strong id="referral-code">SLOTOPOL001</strong>
+              <button class="btn btn-sm btn-outline" onclick="copyReferral()">📋 Copy</button>
+            </div>
+          </div>
+        </div>
+        <div class="profile-section">
+          <h3>Win Schedule</h3>
+          <div class="schedule-card">
+            <span>🕐</span>
+            <span>Casino Hours: <strong id="win-schedule">08:00 - 23:00</strong></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ====== ADMIN VIEW ====== -->
+      <div id="view-admin" class="view">
+        <div class="view-header">
+          <h2>⚙️ Admin Panel</h2>
+          <p class="view-subtitle">Full control over casino operations</p>
+        </div>
+
+        <div class="admin-tabs">
+          <button class="admin-tab active" onclick="switchAdminTab('dashboard')">📊 Dashboard</button>
+          <button class="admin-tab" onclick="switchAdminTab('settings')">⚙️ Settings</button>
+          <button class="admin-tab" onclick="switchAdminTab('payments')">💳 Payments</button>
+          <button class="admin-tab" onclick="switchAdminTab('users')">👥 Users</button>
+          <button class="admin-tab" onclick="switchAdminTab('bonuses')">🎁 Bonuses</button>
+          <button class="admin-tab" onclick="switchAdminTab('upload')">📁 Uploads</button>
+        </div>
+
+        <!-- Admin Dashboard -->
+        <div id="admin-dashboard" class="admin-view active">
+          <div class="admin-stats">
+            <div class="stat-card">
+              <span class="stat-icon">👥</span>
+              <span class="stat-value" id="stat-users">0</span>
+              <span class="stat-label">Total Users</span>
+            </div>
+            <div class="stat-card">
+              <span class="stat-icon">🎮</span>
+              <span class="stat-value" id="stat-games">0</span>
+              <span class="stat-label">Games</span>
+            </div>
+            <div class="stat-card">
+              <span class="stat-icon">🟢</span>
+              <span class="stat-value" id="stat-active">0</span>
+              <span class="stat-label">Active Sessions</span>
+            </div>
+            <div class="stat-card">
+              <span class="stat-icon">💰</span>
+              <span class="stat-value" id="stat-revenue">0</span>
+              <span class="stat-label">Revenue</span>
+            </div>
+          </div>
+          <button class="btn btn-secondary btn-full" onclick="refreshAdminDashboard()">🔄 Refresh</button>
+        </div>
+
+        <!-- Admin Settings -->
+        <div id="admin-settings" class="admin-view">
+          <h3>Casino Settings</h3>
+          <div class="settings-grid">
+            <div class="form-group">
+              <label>Site Name</label>
+              <input type="text" id="adm-site-name" value="Slotopol Casino">
+            </div>
+            <div class="form-group">
+              <label>Welcome Message</label>
+              <input type="text" id="adm-welcome-msg" value="Welcome!">
+            </div>
+            <div class="form-group">
+              <label>Min Deposit (PKR)</label>
+              <input type="number" id="adm-min-dep" value="100">
+            </div>
+            <div class="form-group">
+              <label>Max Deposit (PKR)</label>
+              <input type="number" id="adm-max-dep" value="100000">
+            </div>
+            <div class="form-group">
+              <label>Min Withdrawal (PKR)</label>
+              <input type="number" id="adm-min-wd" value="500">
+            </div>
+            <div class="form-group">
+              <label>Max Withdrawal (PKR)</label>
+              <input type="number" id="adm-max-wd" value="50000">
+            </div>
+            <div class="form-group">
+              <label>Default Commission (%)</label>
+              <input type="number" id="adm-commission" value="5" step="0.5">
+            </div>
+            <div class="form-group">
+              <label>Win Schedule</label>
+              <input type="text" id="adm-schedule" value="08:00-23:00" placeholder="HH:MM-HH:MM">
+            </div>
+          </div>
+          <button class="btn btn-primary btn-full" onclick="saveAdminSettings()">💾 Save Settings</button>
+          <div id="admin-settings-result" class="pay-result"></div>
+        </div>
+
+        <!-- Admin Payments -->
+        <div id="admin-payments" class="admin-view">
+          <h3>Payment Methods</h3>
+          <div id="admin-payment-list" class="admin-payment-list"></div>
+          <div class="form-row" style="margin-top:16px">
+            <input type="text" id="adm-new-payment" placeholder="New method name" class="flex-1">
+            <button class="btn btn-primary" onclick="addPaymentMethod()">➕ Add</button>
+          </div>
+        </div>
+
+        <!-- Admin Users -->
+        <div id="admin-users" class="admin-view">
+          <h3>User Management</h3>
+          <div class="search-box" style="margin-bottom:12px">
+            <input type="text" id="admin-user-search" placeholder="Search users..." oninput="filterAdminUsers()">
+          </div>
+          <div id="admin-user-list" class="admin-user-list">
+            <div class="loading">Loading users...</div>
+          </div>
+          <div class="user-commission-section">
+            <h4>Set User Commission</h4>
+            <div class="form-row">
+              <input type="number" id="adm-comm-uid" placeholder="User ID" class="flex-1">
+              <input type="number" id="adm-comm-rate" placeholder="Commission %" class="flex-1" step="0.5">
+              <button class="btn btn-primary" onclick="setUserCommission()">Set</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Admin Bonuses -->
+        <div id="admin-bonuses" class="admin-view">
+          <h3>Bonuses &amp; Offers</h3>
+          <div class="settings-grid">
+            <div class="form-group">
+              <label>Registration Bonus (PKR)</label>
+              <input type="number" id="adm-reg-bonus" value="50">
+            </div>
+            <div class="form-group">
+              <label>Deposit Bonus (%)</label>
+              <input type="number" id="adm-dep-bonus" value="10" step="1">
+            </div>
+          </div>
+          <button class="btn btn-primary btn-full" onclick="saveAdminSettings()">💾 Save</button>
+          <div class="bonus-actions" style="margin-top:16px">
+            <button class="btn btn-secondary btn-full" onclick="claimBonusForUser()">🎁 Give Registration Bonus</button>
+          </div>
+        </div>
+
+        <!-- Admin Uploads -->
+        <div id="admin-upload" class="admin-view">
+          <h3>Upload Images</h3>
+          <p class="view-subtitle">Upload payment method icons, logos, banners</p>
+          <div class="upload-area" id="upload-area" ondragover="event.preventDefault()" ondrop="handleDrop(event)">
+            <span class="upload-icon">📁</span>
+            <span>Drag &amp; drop files here or click to browse</span>
+            <input type="file" id="file-input" onchange="handleFileSelect(event)" multiple accept="image/*" style="display:none">
+            <button class="btn btn-outline" onclick="document.getElementById('file-input').click()">Browse Files</button>
+          </div>
+          <div id="upload-progress" class="upload-progress" style="display:none"></div>
+          <div id="upload-results" class="upload-results"></div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- ====== TOAST NOTIFICATIONS ====== -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <script src="/js/app.js"></script>
+</body>
+</html>

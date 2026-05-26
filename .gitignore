@@ -1,0 +1,23 @@
+# System files
+.bash_history
+.bashrc
+.profile
+.git-credentials
+.gitconfig
+.ssh/
+.npm/
+.cache/
+go/
+.config/
+
+# Node
+node_modules/
+npm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
